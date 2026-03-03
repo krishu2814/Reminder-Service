@@ -10,6 +10,7 @@ const sendGmail = async (mailFrom, mailTo, mailSubject, mailBody) => {
             subject: mailSubject,
             text: mailBody
         });
+        console.log(mail);
         return mail;
     } catch (error) {
         console.log(error);
