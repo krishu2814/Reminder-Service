@@ -1,4 +1,4 @@
-const transport = require('../config/email-config');
+const transport = require('../config/email-Config');
 
 const sendGmail = async (mailFrom, mailTo, mailSubject, mailBody) => {
 
