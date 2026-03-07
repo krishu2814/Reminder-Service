@@ -3,6 +3,7 @@ const TicketRepository = require('../repository/ticket-repository');
 
 const repo = new TicketRepository();
 
+// used to send mail
 const sendBasicEmail = async (mailFrom, mailTo, mailSubject, mailBody) => {
     try {
         const response = await sender.sendMail({
@@ -17,6 +18,7 @@ const sendBasicEmail = async (mailFrom, mailTo, mailSubject, mailBody) => {
     }
 }
 
+// find all tickets with status pending for reminder
 const fetchPendingEmails = async (timestamp) => {
     try {
         const response = await repo.get({status: "PENDING"});
@@ -26,6 +28,7 @@ const fetchPendingEmails = async (timestamp) => {
     }
 }
 
+// update ticket after sending reminder -> status from pending to success
 const updateTicket = async (ticketId, data) => {
     try {
         const response = await repo.update(ticketId, data);

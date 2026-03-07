@@ -14,12 +14,14 @@ const startServer = function () {
     
     app.listen(PORT, () => {
         console.log(`Server is listening at the port ${PORT}`);
-        jobs();
+
+        // calling setupJobs() internally which will sendMail() to recipient email for reminder
+        jobs(); /* IMPORTANT */
 
         // cron schedule
-        cron.schedule('*/1 * * * *', () => {
-            console.log('running a task every two minutes');
-        });
+        // cron.schedule('*/2 * * * *', () => {
+        //     console.log('running a task every two minutes');
+        // });
     });
 }
 
