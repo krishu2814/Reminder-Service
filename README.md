@@ -13,3 +13,6 @@
 4. `npx sequelize model:generate --name NotificationTicket --attributes subject:string,content:string,    recepientEmail:string,status:enum,notificationTime:date`
 
 `
+-- `job.js` is important and has all the logic for cron schedule.
+
+-- `message-queue.js` -> RabbitMQ
