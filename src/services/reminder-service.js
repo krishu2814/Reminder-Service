@@ -1,24 +1,19 @@
-const transport = require('../config/email-Config');
+const { createChannel, subscribeMessage } = require('./utils/message-queue');
+const { sendReminder} = require('./services/email-service');
+const { REMINDER_BINDING_KEY } = require('./config/serverConfig');
 
-const sendGmail = async (mailFrom, mailTo, mailSubject, mailBody) => {
-
+const startReminderService = async () => {
     try {
-        // Sends an email using the preselected transport object
-        const mail = await transport.sendMail({
-            from: mailFrom,
-            to: mailTo,
-            subject: mailSubject,
-            text: mailBody
-        });
-        console.log(mail);
-        return mail;
+        const channel = await createChannel();
+
+        // subscribe to the queue for reminders
+        // service -> sendReminder
+        await subscribeMessage(channel, sendReminder, REMINDER_BINDING_KEY);
+
+        console.log("Reminder Service is listening to RabbitMQ...");
     } catch (error) {
-        console.log(error);
+        console.log("Error starting Reminder Service:", error);
     }
-}
-module.exports = {
-    sendGmail
-}
-/**
- * from: -> can be random email (no need to be real)
- */
+};
+
+startReminderService();
