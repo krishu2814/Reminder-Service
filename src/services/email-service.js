@@ -143,11 +143,45 @@ const sendReminder = async (message) => {
     }
 };
 
+/**
+ * Event dispatcher for RabbitMQ messages
+ * This allows handling multiple event types
+ */
+const subscribeEvents = async (payload) => {
+
+    const { service, data } = payload;
+
+    switch(service) {
+
+        case 'CREATE_TICKET':
+            await createNotification(data);
+            break;
+
+        case 'SEND_BASIC_MAIL':
+            await sendBasicEmail(
+                data.from,
+                data.to,
+                data.subject,
+                data.body
+            );
+            break;
+
+        case 'SEND_REMINDER':
+            await sendReminder(data);
+            break;
+
+        default:
+            console.log('No valid event received');
+    }
+};
+
+
 
 module.exports = {
     sendBasicEmail,
     fetchPendingEmails,
     createNotification,
     updateTicket,
-    sendReminder
+    sendReminder,
+    subscribeEvents
 };
